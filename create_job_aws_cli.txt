@@ -1,0 +1,16 @@
+aws glue create-job --name CloudFront_LogMaster_v6.0.0 \
+        --description "CloudFront Log infra generator" \
+        --role AWSGlueServiceRoleDefault \
+        --command Name=glueetl,ScriptLocation=s3://medarg-athena-glue-logs-release-bucket/agsl/glue_scripts/sample_cloudfront_job.py,PythonVersion=3 \
+        --glue-version 2.0 \
+        --default-arguments '{ 
+                "--extra-py-files":"s3://medarg-athena-glue-logs-release-bucket/agsl/glue_scripts/athena_glue_converter_latest.zip",
+                "--TempDir":"s3://medarg-athena-glue-logs-release-bucket/tmp/glue",
+                "--job-bookmark-option":"job-bookmark-enable",
+                "--raw_database_name":"aws_service_logs_raw",
+                "--raw_table_name":"cloudfront_raw_logs",
+                "--converted_database_name":"aws_service_logs",
+                "--converted_table_name":"cloudfront",
+                "--s3_converted_target":"s3://medarg-athena-glue-logs-release-bucket/converted/cloudfront",
+                "--s3_source_location":"s3://cf-simple-s3-origin-cloudfrontfors3-719013286345-logs"
+        }'
