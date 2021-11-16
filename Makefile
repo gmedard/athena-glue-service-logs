@@ -6,7 +6,7 @@ PACKAGE_FILE=dist/athena_glue_converter_$(SCRIPT_VERSION).zip
 JOB_DEFINITION_FILE=scripts/glue_jobs.json
 
 # S3 destinations for releases
-RELEASE_BUCKET?=aws-emr-bda-public
+RELEASE_BUCKET?=medarg-athena-glue-logs-release-bucket
 RELEASE_PREFIX=agsl/glue_scripts
 RELEASE_S3_LOCATION=s3://$(RELEASE_BUCKET)/$(RELEASE_PREFIX)
 RELEASE_PATH=$(RELEASE_S3_LOCATION)/athena_glue_converter_$(SCRIPT_VERSION).zip
@@ -69,16 +69,16 @@ create_job: require_service
 		--role AWSGlueServiceRoleDefault \
 		--command Name=glueetl,ScriptLocation=$(SAMPLE_SCRIPT_PATH),PythonVersion=3 \
 		--glue-version 2.0 \
-		--default-arguments '{ \
-			"--extra-py-files":"$(RELEASE_LATEST_PATH)", \
-			"--TempDir":"$(GLUE_TEMP_S3_LOCATION)", \
-			"--job-bookmark-option":"job-bookmark-enable", \
-			"--raw_database_name":"$(RAW_DATABASE_NAME)", \
-			"--raw_table_name":"$(RAW_TABLE_NAME)", \
-			"--converted_database_name":"$(CONVERTED_DATABASE_NAME)", \
-			"--converted_table_name":"$(CONVERTED_TABLE_NAME)", \
-			"--s3_converted_target":"$(S3_CONVERTED_TARGET)", \
-			"--s3_source_location":"$(S3_SOURCE_LOCATION)" \
+		--default-arguments '{
+			"--extra-py-files":"$(RELEASE_LATEST_PATH)",
+			"--TempDir":"$(GLUE_TEMP_S3_LOCATION)",
+			"--job-bookmark-option":"job-bookmark-enable",
+			"--raw_database_name":"$(RAW_DATABASE_NAME)",
+			"--raw_table_name":"$(RAW_TABLE_NAME)",
+			"--converted_database_name":"$(CONVERTED_DATABASE_NAME)",
+			"--converted_table_name":"$(CONVERTED_TABLE_NAME)",
+			"--s3_converted_target":"$(S3_CONVERTED_TARGET)",
+			"--s3_source_location":"$(S3_SOURCE_LOCATION)"
 		}'
 
 clean_glue: require_service

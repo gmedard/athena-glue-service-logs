@@ -14,8 +14,8 @@
         "JOB_NAME_BASE": "CloudFront",
         "RAW_TABLE_NAME":"cloudfront_raw_logs",
         "CONVERTED_TABLE_NAME":"cloudfront",
-        "S3_CONVERTED_TARGET":"s3://bucket/converted/cloudfront",
-        "S3_SOURCE_LOCATION":"s3://bucket/cloudfront/"
+        "S3_CONVERTED_TARGET":"s3://medarg-athena-glue-logs-release-bucket/converted/cloudfront",
+        "S3_SOURCE_LOCATION":"s3://cf-simple-s3-origin-cloudfrontfors3-719013286345-logs"
     },
     "s3_access": {
         "JOB_NAME_BASE": "S3Access",
